@@ -619,7 +619,16 @@ void MSXMixer::unmute()
 
 void MSXMixer::reInit()
 {
-	prevTime.reset(getCurrentTime());
+	// Generate the sound up to now before the sample clock changes, and
+	// keep the clock's phase. Restarting the clock at the current time
+	// dropped the samples since the last update: up to a buffer at the end
+	// of every pause and at every start and stop of a recording, so a
+	// recording fell ever shorter than the emulated time it covers.
+	if (EmuTime now = getCurrentTime(); now >= prevTime.getTime()) {
+		updateStream(now);
+	} else {
+		prevTime.reset(now);
+	}
 	prevTime.setPeriod(EmuDuration::sec(getEffectiveSpeed() / double(hostSampleRate)));
 	reschedule();
 }
@@ -636,13 +645,21 @@ void MSXMixer::reschedule2()
 
 void MSXMixer::setMixerParams(unsigned newFragmentSize, unsigned newSampleRate)
 {
+	double speed = speedManager.getSpeed();
+	bool sameRate = (newSampleRate == hostSampleRate) && (speed == outputSpeed) &&
+		(EmuDuration::sec(getEffectiveSpeed() / double(newSampleRate)) == prevTime.getPeriod());
 	hostSampleRate = newSampleRate;
 	fragmentSize = newFragmentSize;
 
 	reInit(); // must come before call to setOutputRate()
 
+	// When only the buffer size changes (the end of a pause, a recording's
+	// start or stop at the normal speed), keep the sound devices'
+	// resamplers: a new one starts from silence and jolts the waveform.
+	if (sameRate) return;
+	outputSpeed = speed;
 	for (auto& info : infos) {
-		info.device->setOutputRate(newSampleRate, speedManager.getSpeed());
+		info.device->setOutputRate(newSampleRate, speed);
 	}
 }
 

@@ -13,6 +13,7 @@
 #include "MagicKey.hh"
 #include "MidiInReader.hh"
 #include "MidiOutLogger.hh"
+#include "MidiOutSMF.hh"
 #include "Mouse.hh"
 #include "NinjaTap.hh"
 #include "Paddle.hh"
@@ -121,6 +122,8 @@ void PluggableFactory::createAll(PluggingController& controller,
 	controller.registerPluggable(std::make_unique<PrinterPortLogger>(
 		commandController));
 	controller.registerPluggable(std::make_unique<MidiOutLogger>(
+		commandController));
+	controller.registerPluggable(std::make_unique<MidiOutSMF>(
 		commandController));
 
 	// Serial communication:

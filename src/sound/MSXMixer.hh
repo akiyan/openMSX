@@ -166,6 +166,7 @@ private:
 	unsigned fragmentSize = 0;
 	unsigned hostSampleRate = 44100; // requested freq by sound driver,
 	                                 // not compensated for speed
+	double outputSpeed = 0.0; // the speed the sound devices were last given
 
 	std::vector<SoundDeviceInfo> infos;
 
