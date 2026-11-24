@@ -357,6 +357,7 @@ sources = files(
     'serial/MidiOutCoreMIDI.cc',
     'serial/MidiOutDevice.cc',
     'serial/MidiOutLogger.cc',
+    'serial/MidiOutSMF.cc',
     'serial/MidiOutWindows.cc',
     'serial/Midi_w32.cc',
     'serial/MusicModuleMIDI.cc',
