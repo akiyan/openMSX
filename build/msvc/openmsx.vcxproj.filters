@@ -1434,6 +1434,9 @@
     <ClCompile Include="$(OpenMSXSrcDir)\serial\MidiOutLogger.cc">
       <Filter>serial</Filter>
     </ClCompile>
+    <ClCompile Include="$(OpenMSXSrcDir)\serial\MidiOutSMF.cc">
+      <Filter>serial</Filter>
+    </ClCompile>
     <ClCompile Include="$(OpenMSXSrcDir)\serial\MidiOutWindows.cc">
       <Filter>serial</Filter>
     </ClCompile>
@@ -3231,6 +3234,9 @@
       <Filter>serial</Filter>
     </None>
     <None Include="$(OpenMSXSrcDir)\serial\MidiOutLogger.hh">
+      <Filter>serial</Filter>
+    </None>
+    <None Include="$(OpenMSXSrcDir)\serial\MidiOutSMF.hh">
       <Filter>serial</Filter>
     </None>
     <None Include="$(OpenMSXSrcDir)\serial\MidiOutWindows.hh">
